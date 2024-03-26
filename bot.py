@@ -11,7 +11,8 @@ def start_message(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     start_button = types.KeyboardButton("Старт")
     projects_button = types.KeyboardButton("Проекты")
-    markup.add(start_button, projects_button)
+    manga_button = types.KeyboardButton("Манга")
+    markup.add(start_button, projects_button, manga_button)
     bot.send_message(message.chat.id, text="Привет, {0.first_name}\nЧто по плану на сегодня?".format(message.from_user), reply_markup=markup)
     
 @bot.message_handler(content_types=['text'])
@@ -21,6 +22,13 @@ def buttons(message):
     elif (message.text == "Проекты"):
         for project in projects:
             bot.send_message(message.chat.id, text=f"{project}")
+    elif (message.text == "Манга"):
+        bot.send_message(message.chat.id, text="Вставь ссылку на интересующую тебя мангу с сайта remanga.org и отправь мне."
+        if ("remanga.org" not in message.text):
+            bot.send_message(message.chat.id, text="Это не то."
+        else:
+            link_to_source = message.text + "?p=content"
+            
     else:
         bot.send_message(message.chat.id, text="Я могу отвечать только на нажатие кнопок.")
 
